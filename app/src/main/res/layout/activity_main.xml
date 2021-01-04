@@ -34,13 +34,22 @@
 
     </android.widget.LinearLayout>
 
+    <TextView
+        android:id="@+id/recentTimeStampTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonContainer"
+        />
+
     <ListView
         android:id="@+id/mainListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonContainer"
+        app:layout_constraintTop_toBottomOf="@id/recentTimeStampTextView"
         />
 
 

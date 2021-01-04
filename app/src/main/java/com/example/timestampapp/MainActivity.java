@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     ListView mainListView;
+    TextView recentTimeStampTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         /** ビューが多くなってきた場合はデータバインディングとかを検討すべきだが、
          * 今のところは数が少ないので findViewByIdで取得する
         */
+        recentTimeStampTextView = findViewById(R.id.recentTimeStampTextView);
         mainListView = findViewById(R.id.mainListView);
 
         String[] texts = {"test"};
