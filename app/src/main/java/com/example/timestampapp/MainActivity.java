@@ -16,7 +16,9 @@ public class MainActivity extends AppCompatActivity {
     private ListView mainListView;
     private ArrayAdapter mainListAdapter;
     private TextView recentTimeStampTextView;
+    private TimeStamp recentTimeStamp;
     private List<String> timeStampStrings = new ArrayList<>();
+    private List<TimeStamp> timeStamps = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         recentTimeStampTextView = findViewById(R.id.recentTimeStampTextView);
         mainListView = findViewById(R.id.mainListView);
 
-        timeStampStrings.add("timeStamp1");
-
         final ArrayAdapter<String> arrayAdapter =
                 new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, timeStampStrings);
 
@@ -42,10 +42,21 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.timeStampButton).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                timeStampStrings.add(new TimeStamp().getDateTimeString());
-                arrayAdapter.notifyDataSetChanged();
+                if(recentTimeStamp != null){
+                    timeStamps.add(0,recentTimeStamp);
+                    timeStampStrings.add(0,recentTimeStamp.getDateTimeString());
+                    arrayAdapter.notifyDataSetChanged();
+                }
+
+                setRecentTimeStamp(new TimeStamp());
             }
         });
+    }
 
+    private void setRecentTimeStamp(TimeStamp ts){
+        if(recentTimeStamp != ts){
+            recentTimeStamp = ts;
+            recentTimeStampTextView.setText("Recent time stamp >> " + ts.getDateTimeString());
+        }
     }
 }
