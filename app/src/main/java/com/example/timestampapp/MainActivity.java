@@ -3,6 +3,9 @@ package com.example.timestampapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -19,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private TimeStamp recentTimeStamp;
     private List<String> timeStampStrings = new ArrayList<>();
     private List<TimeStamp> timeStamps = new ArrayList<>();
+
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 setRecentTimeStamp(new TimeStamp());
             }
         });
+
+        handler.post(runnable);
     }
 
     private void setRecentTimeStamp(TimeStamp ts){
@@ -59,4 +66,15 @@ public class MainActivity extends AppCompatActivity {
             recentTimeStampTextView.setText("Recent time stamp >> " + ts.getDateTimeString());
         }
     }
+
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if(recentTimeStamp != null && recentTimeStampTextView != null){
+                recentTimeStampTextView.setText("Recent time stamp >> " + recentTimeStamp.getDateTimeString() + " ( " + recentTimeStamp.getElapsedTimeString() +"経過 )");
+            }
+
+            handler.postDelayed(this,1000);
+        }
+    };
 }

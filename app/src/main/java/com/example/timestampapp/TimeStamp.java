@@ -3,6 +3,7 @@ package com.example.timestampapp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public final class TimeStamp {
     private Date dateTime = new Date();
     private String dateTimeString = "";
@@ -19,4 +20,15 @@ public final class TimeStamp {
 
         return dateTimeString;
     }
+
+    public String getElapsedTimeString(){
+        Date elapsedDate = new Date(new Date().getTime() - getDateTime().getTime());
+
+        long h = elapsedDate.getTime() / 1000 / 3600 % 24;
+        long m = elapsedDate.getTime() / 1000 / 60 % 60;
+        long s = elapsedDate.getTime() / 1000 % 60;
+
+        return String.format("%02d:%02d:%02d",h,m,s);
+    }
+
 }
