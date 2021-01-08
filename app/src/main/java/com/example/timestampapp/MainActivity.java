@@ -1,6 +1,7 @@
 package com.example.timestampapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.timestampapp.dbs.AppDatabase;
+import com.example.timestampapp.dbs.TimeStampEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private List<TimeStamp> timeStamps = new ArrayList<>();
 
     private final Handler handler = new Handler(Looper.getMainLooper());
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         handler.post(runnable);
+        db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, "user-database").build();
+
+        TimeStampEntity tse = new TimeStampEntity();
+        tse.id = 0;
+        tse.msTime = 1000;
     }
 
     private void setRecentTimeStamp(TimeStamp ts){
