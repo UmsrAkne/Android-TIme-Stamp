@@ -13,10 +13,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.timestampapp.dbs.AppDatabase;
+import com.example.timestampapp.dbs.DatabaseHelper;
 import com.example.timestampapp.dbs.TimeStampEntity;
+import com.example.timestampapp.dbs.UserDao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private TimeStamp recentTimeStamp;
     private List<String> timeStampStrings = new ArrayList<>();
     private List<TimeStamp> timeStamps = new ArrayList<>();
+    private DatabaseHelper databaseHelper;
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private AppDatabase db;
@@ -58,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
                     arrayAdapter.notifyDataSetChanged();
                 }
 
-                setRecentTimeStamp(new TimeStamp());
+                TimeStamp timeStamp = new TimeStamp();
+                setRecentTimeStamp(timeStamp);
+                databaseHelper.insertTimeStamp(timeStamp);
             }
         });
 
@@ -68,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         TimeStampEntity tse = new TimeStampEntity();
         tse.id = 0;
         tse.msTime = 1000;
+
+        databaseHelper = new DatabaseHelper(db.userDao());
     }
 
     private void setRecentTimeStamp(TimeStamp ts){
@@ -76,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             recentTimeStampTextView.setText("Recent time stamp >> " + ts.getDateTimeString());
         }
     }
+
 
     private final Runnable runnable = new Runnable() {
         @Override
@@ -87,4 +97,5 @@ public class MainActivity extends AppCompatActivity {
             handler.postDelayed(this,1000);
         }
     };
+
 }
