@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         tse.msTime = 1000;
 
         databaseHelper = new DatabaseHelper(db.userDao());
+        databaseHelper.getTimeStamps(arrayAdapter);
     }
 
     private void setRecentTimeStamp(TimeStamp ts){
@@ -85,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             recentTimeStampTextView.setText("Recent time stamp >> " + ts.getDateTimeString());
         }
     }
-
 
     private final Runnable runnable = new Runnable() {
         @Override
