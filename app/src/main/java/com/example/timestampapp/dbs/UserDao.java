@@ -9,7 +9,7 @@ import java.util.List;
 
 @Dao
 public interface UserDao {
-    @Query("SELECT * FROM TimeStampEntity")
+    @Query("SELECT * FROM TimeStampEntity ORDER BY msTime DESC")
     List<TimeStampEntity> getAll();
 
     @Query("SELECT * FROM TimeStampEntity WHERE id IN (:ids)")
