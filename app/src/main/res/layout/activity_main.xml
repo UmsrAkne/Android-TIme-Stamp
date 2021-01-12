@@ -7,52 +7,61 @@
     tools:context=".MainActivity">
 
     <android.widget.LinearLayout
-        android:id="@+id/buttonContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-    >
-        <Button
-            android:id="@+id/timeStampButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+
+        <android.widget.LinearLayout
+            android:id="@+id/buttonContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="Time Stamp"
-            />
+        >
+            <Button
+                android:id="@+id/timeStampButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Time Stamp"
+                />
 
-        <Button
-            android:id="@+id/button2"
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/timeStampButton"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Delete"
+                />
+
+        </android.widget.LinearLayout>
+
+        <TextView
+            android:id="@+id/recentTimeStampTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="@id/timeStampButton"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="Delete"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonContainer"
+            android:textSize="12pt"
+            android:textColor="@color/colorPrimary"
             />
 
+        <ListView
+            android:id="@+id/mainListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recentTimeStampTextView"
+            app:layout_goneMarginBottom="32dp"
+            />
+
+
     </android.widget.LinearLayout>
-
-    <TextView
-        android:id="@+id/recentTimeStampTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonContainer"
-        android:textSize="12pt"
-        android:textColor="@color/colorPrimary"
-        />
-
-    <ListView
-        android:id="@+id/mainListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recentTimeStampTextView"
-        />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
