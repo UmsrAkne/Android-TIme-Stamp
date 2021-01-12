@@ -2,9 +2,16 @@ package com.example.timestampapp.dbs;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
+import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
 
 import com.example.timestampapp.TimeStamp;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 public class DatabaseHelper {
@@ -19,6 +26,11 @@ public class DatabaseHelper {
     public void insertTimeStamp(TimeStamp ts){
         backgroundTask = new BackgroundTask(userDao,ts);
         Executors.newSingleThreadExecutor().submit(backgroundTask);
+    }
+
+    public void getTimeStamps(ArrayAdapter<String> adapter){
+        BackgroundRead backgroundRead = new BackgroundRead(userDao, adapter);
+        Executors.newSingleThreadExecutor().submit(backgroundRead);
     }
 
     private static class BackgroundTask implements Runnable{
@@ -42,4 +54,32 @@ public class DatabaseHelper {
             userDao.insertAll(tse);
         }
     }
+
+
+    private static class BackgroundRead implements Runnable{
+        private final ArrayAdapter adapter;
+        private UserDao userDao;
+        private List<TimeStampEntity> tss;
+
+        BackgroundRead(UserDao userDao, ArrayAdapter adapter){
+            this.userDao = userDao;
+            this.adapter = adapter;
+        }
+
+        private final Handler handler = new Handler(Looper.getMainLooper()){
+        };
+
+        @Override
+        public void run() {
+            List<TimeStampEntity> tss = userDao.getAll();
+            List<String> timeStampStrings = new ArrayList<String>();
+            adapter.clear();
+            for (TimeStampEntity te:tss ) {
+                adapter.add( new TimeStamp(new Date(te.msTime)).getDateTimeString());
+            }
+
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 }

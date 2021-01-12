@@ -12,6 +12,12 @@ public final class TimeStamp {
         return dateTime;
     }
 
+    public TimeStamp(){ }
+
+    public TimeStamp(Date dt){
+        dateTime = dt;
+    }
+
     public String getDateTimeString(){
         if(dateTimeString == ""){
             SimpleDateFormat df = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
