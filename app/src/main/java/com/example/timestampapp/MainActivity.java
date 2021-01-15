@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(recentTimeStamp != null){
-                    timeStamps.add(0,recentTimeStamp);
-                    timeStampStrings.add(0,recentTimeStamp.getDateTimeString());
+                    timeStamps.add(0,new TimeStamp());
+                    timeStampStrings.add(0,timeStamps.get(0).getDateTimeString());
                     arrayAdapter.notifyDataSetChanged();
                 }
 
