@@ -37,4 +37,7 @@ public final class TimeStamp {
         return String.format("%02d:%02d:%02d",h,m,s);
     }
 
+    public void setDate(Date dt){
+        this.dateTime = dt;
+    }
 }

@@ -17,6 +17,7 @@ import com.example.timestampapp.dbs.DatabaseHelper;
 import com.example.timestampapp.dbs.TimeStampEntity;
 import com.example.timestampapp.dbs.UserDao;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -58,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(recentTimeStamp != null){
-                    timeStamps.add(0,recentTimeStamp);
-                    timeStampStrings.add(0,recentTimeStamp.getDateTimeString());
+                    timeStamps.add(0,new TimeStamp());
+                    timeStampStrings.add(0,timeStamps.get(0).getDateTimeString());
                     arrayAdapter.notifyDataSetChanged();
                 }
 
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(db.userDao());
         databaseHelper.getTimeStamps(arrayAdapter);
+        recentTimeStamp = new TimeStamp();
+        databaseHelper.rewriteRecentTimeStamp(recentTimeStamp);
     }
 
     private void setRecentTimeStamp(TimeStamp ts){

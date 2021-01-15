@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -31,6 +32,11 @@ public class DatabaseHelper {
     public void getTimeStamps(ArrayAdapter<String> adapter){
         BackgroundRead backgroundRead = new BackgroundRead(userDao, adapter);
         Executors.newSingleThreadExecutor().submit(backgroundRead);
+    }
+
+    public void rewriteRecentTimeStamp(TimeStamp ts){
+        ReadRecentTimeStampTask r = new ReadRecentTimeStampTask(userDao, ts);
+        Executors.newSingleThreadExecutor().submit(r);
     }
 
     private static class BackgroundTask implements Runnable{
@@ -80,6 +86,26 @@ public class DatabaseHelper {
 
             adapter.notifyDataSetChanged();
         }
+    }
+
+    private static class ReadRecentTimeStampTask implements Runnable{
+        private final TimeStamp timeStamp;
+        private UserDao userDao;
+
+        ReadRecentTimeStampTask(UserDao userDao, TimeStamp ts){
+            this.userDao = userDao;
+            this.timeStamp = ts;
+        }
+
+        private final Handler handler = new Handler(Looper.getMainLooper()){
+        };
+
+        @Override
+        public void run() {
+            Date dt = new Date(userDao.getAll().get(0).msTime);
+            timeStamp.setDate(dt);
+        }
+
     }
 
 }
