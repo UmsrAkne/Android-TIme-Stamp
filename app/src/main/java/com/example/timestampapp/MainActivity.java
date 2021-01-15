@@ -17,6 +17,7 @@ import com.example.timestampapp.dbs.DatabaseHelper;
 import com.example.timestampapp.dbs.TimeStampEntity;
 import com.example.timestampapp.dbs.UserDao;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(db.userDao());
         databaseHelper.getTimeStamps(arrayAdapter);
+        recentTimeStamp = new TimeStamp();
+        databaseHelper.rewriteRecentTimeStamp(recentTimeStamp);
     }
 
     private void setRecentTimeStamp(TimeStamp ts){
