@@ -6,7 +6,6 @@ import androidx.room.Room;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -14,14 +13,9 @@ import android.widget.TextView;
 
 import com.example.timestampapp.dbs.AppDatabase;
 import com.example.timestampapp.dbs.DatabaseHelper;
-import com.example.timestampapp.dbs.TimeStampEntity;
-import com.example.timestampapp.dbs.UserDao;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,11 +65,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         handler.post(runnable);
-        db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, "user-database").build();
-
-        TimeStampEntity tse = new TimeStampEntity();
-        tse.id = 0;
-        tse.msTime = 1000;
+        db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, "user-databaseB").build();
 
         databaseHelper = new DatabaseHelper(db.userDao());
         databaseHelper.getTimeStamps(arrayAdapter);
