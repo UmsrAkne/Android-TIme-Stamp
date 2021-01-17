@@ -1,11 +1,23 @@
 package com.example.timestampapp;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+@Entity
 public final class TimeStamp {
+
+    @PrimaryKey
+    public int id;
+    public long msTime;
+
+    @Ignore
     private Date dateTime = new Date();
+
+    @Ignore
     private String dateTimeString = "";
 
     public Date getDateTime(){
@@ -16,6 +28,7 @@ public final class TimeStamp {
 
     public TimeStamp(Date dt){
         dateTime = dt;
+        msTime = dt.getTime();
     }
 
     public String getDateTimeString(){
@@ -39,5 +52,6 @@ public final class TimeStamp {
 
     public void setDate(Date dt){
         this.dateTime = dt;
+        msTime = dt.getTime();
     }
 }

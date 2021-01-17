@@ -71,11 +71,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         handler.post(runnable);
-        db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, "user-database").build();
-
-        TimeStampEntity tse = new TimeStampEntity();
-        tse.id = 0;
-        tse.msTime = 1000;
+        db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, "user-databaseB").build();
 
         databaseHelper = new DatabaseHelper(db.userDao());
         databaseHelper.getTimeStamps(arrayAdapter);

@@ -2,15 +2,11 @@ package com.example.timestampapp.dbs;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
+import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 
 import com.example.timestampapp.TimeStamp;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -54,10 +50,10 @@ public class DatabaseHelper {
 
         @Override
         public void run() {
-            TimeStampEntity tse = new TimeStampEntity();
-            tse.id = userDao.getAll().size() + 1;
-            tse.msTime = timeStamp.getDateTime().getTime();
-            userDao.insertAll(tse);
+            TimeStamp ts = new TimeStamp();
+            ts.id = userDao.getAll().size() + 1;
+            ts.msTime = timeStamp.getDateTime().getTime();
+            userDao.insertAll(ts);
         }
     }
 
@@ -65,7 +61,6 @@ public class DatabaseHelper {
     private static class BackgroundRead implements Runnable{
         private final ArrayAdapter adapter;
         private UserDao userDao;
-        private List<TimeStampEntity> tss;
 
         BackgroundRead(UserDao userDao, ArrayAdapter adapter){
             this.userDao = userDao;
@@ -77,11 +72,10 @@ public class DatabaseHelper {
 
         @Override
         public void run() {
-            List<TimeStampEntity> tss = userDao.getAll();
-            List<String> timeStampStrings = new ArrayList<String>();
+            List<TimeStamp> tss = userDao.getAll();
             adapter.clear();
-            for (TimeStampEntity te:tss ) {
-                adapter.add( new TimeStamp(new Date(te.msTime)).getDateTimeString());
+            for (TimeStamp ts:tss ) {
+                adapter.add( new TimeStamp(new Date(ts.msTime)).getDateTimeString());
             }
 
             adapter.notifyDataSetChanged();
