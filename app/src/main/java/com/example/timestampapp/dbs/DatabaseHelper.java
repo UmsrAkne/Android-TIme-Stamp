@@ -2,7 +2,6 @@ package com.example.timestampapp.dbs;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.example.timestampapp.TimeStamp;
@@ -13,7 +12,6 @@ import java.util.concurrent.Executors;
 
 public class DatabaseHelper {
 
-    private BackgroundTask backgroundTask;
     private UserDao userDao;
 
     public DatabaseHelper(UserDao userDao){
@@ -21,8 +19,20 @@ public class DatabaseHelper {
     }
 
     public void insertTimeStamp(TimeStamp ts){
-        backgroundTask = new BackgroundTask(userDao,ts);
-        Executors.newSingleThreadExecutor().submit(backgroundTask);
+        Executors.newSingleThreadExecutor().submit(
+            new Runnable() {
+
+                private final Handler handler = new Handler(Looper.getMainLooper()){ };
+
+                @Override
+                public void run() {
+                    TimeStamp ts = new TimeStamp();
+                    ts.id = userDao.getAll().size() + 1;
+                    ts.msTime = ts.getDateTime().getTime();
+                    userDao.insertAll(ts);
+                }
+            }
+        );
     }
 
     public void getTimeStamps(ArrayAdapter<String> adapter){
@@ -34,29 +44,6 @@ public class DatabaseHelper {
         ReadRecentTimeStampTask r = new ReadRecentTimeStampTask(userDao, ts);
         Executors.newSingleThreadExecutor().submit(r);
     }
-
-    private static class BackgroundTask implements Runnable{
-        BackgroundTask(UserDao userDao, TimeStamp ts){
-            this.userDao = userDao;
-            timeStamp = ts;
-        }
-
-        private final Handler handler = new Handler(Looper.getMainLooper()){
-
-        };
-
-        private UserDao userDao;
-        private TimeStamp timeStamp;
-
-        @Override
-        public void run() {
-            TimeStamp ts = new TimeStamp();
-            ts.id = userDao.getAll().size() + 1;
-            ts.msTime = timeStamp.getDateTime().getTime();
-            userDao.insertAll(ts);
-        }
-    }
-
 
     private static class BackgroundRead implements Runnable{
         private final ArrayAdapter adapter;
